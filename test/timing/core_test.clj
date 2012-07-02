@@ -2,6 +2,12 @@
   (:use clojure.test
         timing.core))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(defn demofunction [t]
+  (Thread/sleep t)
+  t)
+
+(deftest simple-test
+  (let [t 1000]
+    (is (= t (timed :demo (demofunction t))))))
+
+
