@@ -4,6 +4,10 @@ Timing is a simple library to log call time using perf4j.
 
 ## Usage
 
+```
+[timing "0.1.0"]
+```
+
 Just wrap forms you want to calculate call time:
 
 ```clojure
@@ -18,6 +22,13 @@ timing log.
 Timing will select a logging provider automatically by looking up your
 classpath (slf4j, log4j and stderr). Timing doesn't depend on any
 logging provider at compile time.
+
+There also a built-in ring middleware to log call time for every
+request.
+
+```clojure
+(wrap-timed handler)
+```
 
 ## License
 
