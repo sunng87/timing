@@ -23,7 +23,7 @@ Timing will select a logging provider automatically by looking up your
 classpath (slf4j, log4j and stderr). Timing doesn't depend on any
 logging provider at compile time.
 
-There also a built-in ring middleware to log call time for every
+There's also a built-in ring middleware to log call time for every
 request.
 
 ```clojure
