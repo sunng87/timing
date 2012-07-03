@@ -10,7 +10,7 @@
     (eval
      `(reify LoggingStopWatchFactory
         (get-stop-watch [this# tag#]
-          (org.perf4j.slf4j.Slf4JStopWatch. tag#))))
+          (org.perf4j.slf4j.Slf4JStopWatch. ^String tag#))))
     (catch ClassNotFoundException e nil)))
 
 (defn try-log4j []
@@ -19,13 +19,13 @@
     (eval
      `(reify LoggingStopWatchFactory
         (get-stop-watch [this# tag#]
-          (org.perf4j.log4j.Log4JStopWatch. tag#))))
+          (org.perf4j.log4j.Log4JStopWatch. ^String tag#))))
     (catch ClassNotFoundException e nil)))
 
 (defn failback []
   (reify LoggingStopWatchFactory
     (get-stop-watch [this tag]
-      (LoggingStopWatch. tag))))
+      (LoggingStopWatch. ^String tag))))
 
 (def preferred-factory
   (or
@@ -38,7 +38,7 @@
   [tag & forms]
   `(let [watch# (get-stop-watch preferred-factory (str ~tag))
          result# (do ~@forms)]
-     (.stop watch#)
+     (.stop ^LoggingStopWatch watch#)
      result#))
 
 (defn wrap-timed
