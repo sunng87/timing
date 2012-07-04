@@ -5,7 +5,7 @@ Timing is a simple library to log call time using perf4j.
 ## Usage
 
 ```
-[timing "0.1.1"]
+[timing "0.1.2"]
 ```
 
 Just wrap forms you want to calculate call time:

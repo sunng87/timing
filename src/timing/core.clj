@@ -4,7 +4,7 @@
 (defprotocol LoggingStopWatchFactory
   (get-stop-watch [this tag]))
 
-(defn try-slf4j []
+(defn- try-slf4j []
   (try
     (Class/forName "org.slf4j.Logger")
     (eval
@@ -13,7 +13,7 @@
           (org.perf4j.slf4j.Slf4JStopWatch. ^String tag#))))
     (catch ClassNotFoundException e nil)))
 
-(defn try-log4j []
+(defn- try-log4j []
   (try
     (Class/forName "org.apache.log4j.Logger")
     (eval
@@ -22,7 +22,7 @@
           (org.perf4j.log4j.Log4JStopWatch. ^String tag#))))
     (catch ClassNotFoundException e nil)))
 
-(defn failback []
+(defn- failback []
   (reify LoggingStopWatchFactory
     (get-stop-watch [this tag]
       (LoggingStopWatch. ^String tag))))
@@ -47,4 +47,21 @@
   (fn [req]
     (timed (:uri req) (handler req))))
 
+(defmacro timed-fn
+  "convert a named function to a timed function"
+  ([f]
+     (let [ns-qualified-name (str (ns-name *ns*) "/" f)]
+       `(timed-fn ~ns-qualified-name ~f)))
+  ([t f]
+     `(fn [& args#]
+        (timed ~t (apply ~f args#)))))
+
+(defmacro defn-timed
+  "def a fucntion which is born timed"
+  [name argvec & body]
+  (let [fname (gensym)
+        ns-qualified-name (str (ns-name *ns*) "/" name)]
+    `(do
+       (defn ~fname ~argvec ~@body)
+       (def ~name (timed-fn ~ns-qualified-name ~fname)))))
 
