@@ -1,4 +1,4 @@
-(defproject timing "0.1.4-SNAPSHOT"
+(defproject timing "0.1.4"
   :description "A simple timing library for clojure"
   :url "http://github.com/sunng87/timing"
   :license {:name "Eclipse Public License"
