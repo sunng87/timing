@@ -59,9 +59,5 @@
 (defmacro defn-timed
   "def a fucntion which is born timed"
   [name argvec & body]
-  (let [fname (gensym)
-        ns-qualified-name (str (ns-name *ns*) "/" name)]
-    `(do
-       (defn ~fname ~argvec ~@body)
-       (def ~name (timed-fn ~ns-qualified-name ~fname)))))
-
+  `(defn ~name ~argvec
+     (timed ~(str name) ~@body)))

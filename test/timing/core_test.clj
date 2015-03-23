@@ -22,4 +22,3 @@
 (deftest defn-timed-test
   (let [t 1000]
     (is (= t (demofunction2 t)))))
-
